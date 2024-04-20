@@ -22,30 +22,34 @@
     var CONFIG = {"hostname":"jphu2017.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="坐地日行八万里，巡天遥看一千河。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="日行八万里">
-<meta property="og:url" content="http://jphu2017.github.io/index.html">
+  <meta name="description" content="意图提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。 结构 代码示例123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828">
+<meta property="og:type" content="article">
+<meta property="og:title" content="02-抽象工厂模式（Abstract Factory）">
+<meta property="og:url" content="http://jphu2017.github.io/2024/04/20/02-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="日行八万里">
-<meta property="og:description" content="坐地日行八万里，巡天遥看一千河。">
+<meta property="og:description" content="意图提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。 结构 代码示例123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://jphu2017.github.io/images/%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9B%BE.png">
+<meta property="article:published_time" content="2024-04-20T08:34:07.296Z">
+<meta property="article:modified_time" content="2024-04-20T08:36:46.155Z">
 <meta property="article:author" content="JpHu">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jphu2017.github.io/images/%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9B%BE.png">
 
-<link rel="canonical" href="http://jphu2017.github.io/">
+<link rel="canonical" href="http://jphu2017.github.io/2024/04/20/02-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>日行八万里</title>
+  <title>02-抽象工厂模式（Abstract Factory） | 日行八万里</title>
   
 
 
@@ -168,9 +172,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -186,10 +191,9 @@
       <meta itemprop="name" content="日行八万里">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/04/20/02-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">02-抽象工厂模式（Abstract Factory）</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          02-抽象工厂模式（Abstract Factory）
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -236,7 +240,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="意图"><a href="#意图" class="headerlink" title="意图"></a>意图</h1><p>提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。</p>
+        <h1 id="意图"><a href="#意图" class="headerlink" title="意图"></a>意图</h1><p>提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。</p>
 <h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><p><img src="/images/%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt="抽象工厂模式结构图" title="抽象工厂模式结构图"></p>
 <h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;memory&gt;</span><br><span class="line"></span><br><span class="line">/// 接口</span><br><span class="line">// 产品A</span><br><span class="line">class AbstractProductA &#123;</span><br><span class="line">public:</span><br><span class="line">    using Ptr = std::shared_ptr&lt;AbstractProductA&gt;;</span><br><span class="line">    AbstractProductA() = default;</span><br><span class="line">    virtual ~AbstractProductA() = default;</span><br><span class="line">    </span><br><span class="line">    virtual void printA() = 0;</span><br><span class="line">&#125;;</span><br><span class="line">// 产品B</span><br><span class="line">class AbstractProductB &#123;</span><br><span class="line">public:</span><br><span class="line">    using Ptr = std::shared_ptr&lt;AbstractProductB&gt;;</span><br><span class="line">    AbstractProductB() = default;</span><br><span class="line">    virtual ~AbstractProductB() = default;</span><br><span class="line"></span><br><span class="line">    virtual void printB() = 0;</span><br><span class="line">&#125;;</span><br><span class="line">// 工厂</span><br><span class="line">class AbstractFactory &#123;</span><br><span class="line">public:</span><br><span class="line">    AbstractFactory() = default;</span><br><span class="line">    virtual ~AbstractFactory() = default;</span><br><span class="line">    </span><br><span class="line">    virtual AbstractProductA::Ptr createProductA() = 0;</span><br><span class="line">    virtual AbstractProductB::Ptr createProductB() = 0;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">/// 具体类</span><br><span class="line">// 系列1中的A产品</span><br><span class="line">class ProductA1 : public AbstractProductA &#123;</span><br><span class="line">public:</span><br><span class="line">    ProductA1() = default;</span><br><span class="line">    virtual ~ProductA1() = default;</span><br><span class="line">    </span><br><span class="line">    void printA() override &#123;</span><br><span class="line">        std::cout &lt;&lt; &quot;I&#x27;m ProductA1&quot; &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">// 系列2中的A产品</span><br><span class="line">class ProductA2 : public AbstractProductA &#123;</span><br><span class="line">public:</span><br><span class="line">    ProductA2() = default;</span><br><span class="line">    virtual ~ProductA2() = default;</span><br><span class="line">    </span><br><span class="line">    void printA() override &#123;</span><br><span class="line">        std::cout &lt;&lt; &quot;I&#x27;m ProductA2&quot; &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 系列1中的B产品</span><br><span class="line">class ProductB1 : public AbstractProductB &#123;</span><br><span class="line">public:</span><br><span class="line">    ProductB1() = default;</span><br><span class="line">    virtual ~ProductB1() = default;</span><br><span class="line">    </span><br><span class="line">    void printB() override &#123;</span><br><span class="line">        std::cout &lt;&lt; &quot;I&#x27;m ProductB1&quot; &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">// 系列2中的B产品</span><br><span class="line">class ProductB2 : public AbstractProductB &#123;</span><br><span class="line">public:</span><br><span class="line">    ProductB2() = default;</span><br><span class="line">    virtual ~ProductB2() = default;</span><br><span class="line">    </span><br><span class="line">    void printB() override &#123;</span><br><span class="line">        std::cout &lt;&lt; &quot;I&#x27;m ProductB2&quot; &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 生产品牌1产品的工厂</span><br><span class="line">class ConcreteFactory1 : public AbstractFactory &#123;</span><br><span class="line">public:</span><br><span class="line">    ConcreteFactory1() = default;</span><br><span class="line">    virtual ~ConcreteFactory1() = default;</span><br><span class="line">    </span><br><span class="line">    AbstractProductA::Ptr createProductA() override &#123;</span><br><span class="line">        AbstractProductA::Ptr product_ptr;</span><br><span class="line">        product_ptr.reset(new ProductA1());</span><br><span class="line">        return product_ptr;</span><br><span class="line">    &#125;</span><br><span class="line">    AbstractProductB::Ptr createProductB() override &#123;</span><br><span class="line">        AbstractProductB::Ptr product_ptr;</span><br><span class="line">        product_ptr.reset(new ProductB1());</span><br><span class="line">        return product_ptr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">// 生产品牌2产品的工厂</span><br><span class="line">class ConcreteFactory2 : public AbstractFactory &#123;</span><br><span class="line">public:</span><br><span class="line">    ConcreteFactory2() = default;</span><br><span class="line">    virtual ~ConcreteFactory2() = default;</span><br><span class="line">    </span><br><span class="line">    AbstractProductA::Ptr createProductA() override &#123;</span><br><span class="line">        AbstractProductA::Ptr product_ptr;</span><br><span class="line">        product_ptr.reset(new ProductA2());</span><br><span class="line">        return product_ptr;</span><br><span class="line">    &#125;</span><br><span class="line">    AbstractProductB::Ptr createProductB() override &#123;</span><br><span class="line">        AbstractProductB::Ptr product_ptr;</span><br><span class="line">        product_ptr.reset(new ProductB2());</span><br><span class="line">        return product_ptr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// use it!</span><br><span class="line">int main(int argc, char* argv[]) &#123;</span><br><span class="line">    AbstractFactory* af = new ConcreteFactory1();</span><br><span class="line">    auto product_a = af-&gt;createProductA();</span><br><span class="line">    product_a-&gt;printA();</span><br><span class="line">    auto product_b = af-&gt;createProductB();</span><br><span class="line">    product_b-&gt;printB();</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h1><ol>
@@ -246,223 +250,47 @@
 <li>当提供一个产品类库，而只想显示它们的接口而不是实现时。</li>
 </ol>
 
-      
     </div>
 
     
     
     
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>JpHu
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://jphu2017.github.io/2024/04/20/02-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" title="02-抽象工厂模式（Abstract Factory）">http://jphu2017.github.io/2024/04/20/02-抽象工厂模式/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://jphu2017.github.io/2024/04/20/01-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">
+        
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="JpHu">
-      <meta itemprop="description" content="坐地日行八万里，巡天遥看一千河。">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="日行八万里">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/04/20/01-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">01-工厂模式（Factory Method）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-04-20 16:20:23 / 修改时间：16:28:53" itemprop="dateCreated datePublished" datetime="2024-04-20T16:20:23+08:00">2024-04-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="意图"><a href="#意图" class="headerlink" title="意图"></a>意图</h1><p>定义一个用于创建对象的接口，让子类决定将哪一个类实例化。工厂模式使一个类的实例化延迟到其子类。</p>
-<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><p><img src="/images/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt="工厂模式结构图" title="工厂模式结构图"></p>
-<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;memory&gt;</span><br><span class="line"></span><br><span class="line">/// 接口</span><br><span class="line">// 产品</span><br><span class="line">class Product &#123;</span><br><span class="line">public:</span><br><span class="line">    using Ptr = std::shared_ptr&lt;Product&gt;;</span><br><span class="line">    Product() = default;</span><br><span class="line">    virtual ~Product() = default;</span><br><span class="line"></span><br><span class="line">    virtual void print() = 0;</span><br><span class="line">&#125;;</span><br><span class="line">// 工厂</span><br><span class="line">class Factory &#123;</span><br><span class="line">public:</span><br><span class="line">    Factory() = default;</span><br><span class="line">    virtual ~Factory() = default;</span><br><span class="line">    virtual Product::Ptr create() = 0;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">/// 具体类</span><br><span class="line">// A产品</span><br><span class="line">class ProductA : public Product &#123;</span><br><span class="line">public:</span><br><span class="line">    void print() override &#123;</span><br><span class="line">        std::cout &lt;&lt; &quot;Product A&quot; &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">// 生产A产品的工厂</span><br><span class="line">class FactoryA : public Factory &#123;</span><br><span class="line">public:</span><br><span class="line">    Product::Ptr create() override &#123;</span><br><span class="line">        Product::Ptr product;</span><br><span class="line">        product.reset(new ProductA());</span><br><span class="line">        return product;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// B产品</span><br><span class="line">class ProductB : public Product &#123;</span><br><span class="line">public:</span><br><span class="line">    void print() override &#123;</span><br><span class="line">        std::cout &lt;&lt; &quot;Product A&quot; &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">// 生产B产品的工厂</span><br><span class="line">class FactoryB : public Factory &#123;</span><br><span class="line">public:</span><br><span class="line">    Product::Ptr create() override &#123;</span><br><span class="line">        Product::Ptr product;</span><br><span class="line">        product.reset(new ProductB());</span><br><span class="line">        return product;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// use it!</span><br><span class="line">int main(int argc, char* argv[]) &#123;</span><br><span class="line">    Factory* f = new FactoryA();</span><br><span class="line">    Product::Ptr p = f-&gt;create();</span><br><span class="line">    p-&gt;print();</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h1><p>下列情况下可使用工厂模式：</p>
-<ol>
-<li>当一个类不知道它所必须创建的对象的类的时候；</li>
-<li>当一个累希望由它的子类来指定它所创建的对象的时候；</li>
-<li>当类将创建对象的职责委托给多个Helper子类中的某一个，并且你希望将哪一个Helper 子类是代理者这一信息局部化的时候。</li>
-</ol>
-
-      
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/04/20/01-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" rel="prev" title="01-工厂模式（Factory Method）">
+      <i class="fa fa-chevron-left"></i> 01-工厂模式（Factory Method）
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://jphu2017.github.io/2024/04/20/00-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%A6%82%E8%A7%88/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="JpHu">
-      <meta itemprop="description" content="坐地日行八万里，巡天遥看一千河。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="日行八万里">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/04/20/00-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%A6%82%E8%A7%88/" class="post-title-link" itemprop="url">00-设计模式概览</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-04-20 16:14:45 / 修改时间：16:28:57" itemprop="dateCreated datePublished" datetime="2024-04-20T16:14:45+08:00">2024-04-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>445</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><p>设计模式按设计目的可分为3类：创建型、结构型和行为型，共23种。其中创建型设计模式5种，结构性设计模式7种，行为型设计模式11种。</p>
-<h1 id="创建型设计模式"><a href="#创建型设计模式" class="headerlink" title="创建型设计模式"></a>创建型设计模式</h1><ol>
-<li>抽象工厂模式（Abstract Factory）</li>
-<li>建造者模式（Builder）</li>
-<li>工厂模式（Factory Method）</li>
-<li>原型模式（Prototype）</li>
-<li>单例模式（Singleton）</li>
-</ol>
-<h1 id="结构性设计模式"><a href="#结构性设计模式" class="headerlink" title="结构性设计模式"></a>结构性设计模式</h1><ol>
-<li>适配器模式（Adapter）</li>
-<li>桥接模式（Bridge）</li>
-<li>装饰模式（Decorator）</li>
-<li>组合模式（Composite）</li>
-<li>外观模式（Facade）</li>
-<li>享元模式（Flyweight）</li>
-<li>代理模式（Proxy）</li>
-</ol>
-<h1 id="行为型设计模式"><a href="#行为型设计模式" class="headerlink" title="行为型设计模式"></a>行为型设计模式</h1><ol>
-<li>职责链模式（Chain of Responsibility）</li>
-<li>命令模式（Command）</li>
-<li>解释器模式（Interpreter）</li>
-<li>迭代器模式（Iterator）</li>
-<li>中介者模式（Mediator）</li>
-<li>备忘录模式（Memento）</li>
-<li>观察者模式（Observer）</li>
-<li>状态模式（State）</li>
-<li>策略模式（Strategy）</li>
-<li>模板模式（Template Method）</li>
-<li>访问者模式（Visitor）</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
   
 
 
@@ -515,6 +343,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%84%8F%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text">意图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="nav-number">3.</span> <span class="nav-text">代码示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E6%80%A7"><span class="nav-number">4.</span> <span class="nav-text">适用性</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
