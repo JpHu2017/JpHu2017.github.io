@@ -174,6 +174,100 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jphu2017.github.io/2024/04/20/designpatterns/17-%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="JpHu">
+      <meta itemprop="description" content="坐地日行八万里，巡天遥看一千河。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="日行八万里">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/04/20/designpatterns/17-%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">17-中介者模式（Mediator）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-04-20 23:02:14 / 修改时间：23:05:31" itemprop="dateCreated datePublished" datetime="2024-04-20T23:02:14+08:00">2024-04-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="意图"><a href="#意图" class="headerlink" title="意图"></a>意图</h1><p>中介者模式是一种行为型设计模式。它用一个中介对象来封装一系列的对象交互。中介者使各对象不需要显式地相互引用，从而使其耦合松散，而且可以独立地改变它们之间的交互。</p>
+<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><p><img src="/images/designpatterns/%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt="中介者模式结构图" title="中介者模式结构图"></p>
+<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">中介者模式结构图</center>
+
+<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 中介者</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Colleague</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Mediator</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Mediator</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Mediator</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">SendMsg</span><span class="params">(Colleague* colleague, <span class="type">const</span> std::string&amp; msg)</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 同事类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Colleague</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Colleague</span>(Mediator* mediator) : _mediator(mediator) &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Colleague</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">SendMsg</span><span class="params">(<span class="type">const</span> std::string&amp; msg)</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">ReceiveMsg</span><span class="params">(<span class="type">const</span> std::string&amp; msg)</span> </span>= <span class="number">0</span>;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    Mediator* _mediator;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteColleague1</span> : <span class="keyword">public</span> Colleague &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ConcreteColleague1</span>(Mediator* mediator) </span><br><span class="line">        : <span class="built_in">Colleague</span>(mediator) &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">ConcreteColleague1</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">SendMsg</span><span class="params">(<span class="type">const</span> std::string&amp; msg)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        _mediator-&gt;<span class="built_in">SendMsg</span>(<span class="keyword">this</span>, msg);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">ReceiveMsg</span><span class="params">(<span class="type">const</span> std::string&amp; msg)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Colleague1 receive msg: &quot;</span> &lt;&lt; msg &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteColleague2</span> : <span class="keyword">public</span> Colleague &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ConcreteColleague2</span>(Mediator* mediator)</span><br><span class="line">        : <span class="built_in">Colleague</span>(mediator) &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">ConcreteColleague2</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">SendMsg</span><span class="params">(<span class="type">const</span> std::string&amp; msg)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        _mediator-&gt;<span class="built_in">SendMsg</span>(<span class="keyword">this</span>, msg);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">ReceiveMsg</span><span class="params">(<span class="type">const</span> std::string&amp; msg)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Colleague2 receive msg: &quot;</span> &lt;&lt; msg &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteMediator</span> : <span class="keyword">public</span> Mediator &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ConcreteMediator</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">ConcreteMediator</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">SendMsg</span><span class="params">(Colleague* colleague, <span class="type">const</span> std::string&amp; msg)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (colleague == _colleage1) &#123;</span><br><span class="line">            _colleage2-&gt;<span class="built_in">ReceiveMsg</span>(msg);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (colleague == _colleage2) &#123;</span><br><span class="line">            _colleage1-&gt;<span class="built_in">ReceiveMsg</span>(msg);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">setColleague1</span><span class="params">(Colleague* colleague1)</span> </span>&#123;</span><br><span class="line">        _colleage1 = colleague1;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">setColleague2</span><span class="params">(Colleague* colleague2)</span> </span>&#123;</span><br><span class="line">        _colleage2 = colleague2;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	Colleague *_colleage1;</span><br><span class="line">	Colleague *_colleage2;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">    ConcreteMediator* mediator = <span class="keyword">new</span> <span class="built_in">ConcreteMediator</span>();</span><br><span class="line">    Colleague* colleague1 = <span class="keyword">new</span> <span class="built_in">ConcreteColleague1</span>(mediator);</span><br><span class="line">    Colleague* colleague2 = <span class="keyword">new</span> <span class="built_in">ConcreteColleague2</span>(mediator);</span><br><span class="line">    mediator-&gt;<span class="built_in">setColleague1</span>(colleague1);</span><br><span class="line">    mediator-&gt;<span class="built_in">setColleague2</span>(colleague2);</span><br><span class="line">    colleague1-&gt;<span class="built_in">SendMsg</span>(<span class="string">&quot;Hello from colleague1&quot;</span>);</span><br><span class="line">    colleague2-&gt;<span class="built_in">SendMsg</span>(<span class="string">&quot;Hello from colleague2&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/images/designpatterns/%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt="中介者模式运行结果" title="中介者模式运行结果"></p>
+<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">中介者模式运行结果</center>
+
+<h1 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h1><ol>
+<li>一组对象以定义良好但是复杂的方式进行通信；产生的相互依赖关系结构混乱且难以理解；</li>
+<li>一个对象引用其他很多对象并且直接与这些对象通信，导致难以复用该对象；</li>
+<li>想定制一个分布在多个类中的行为，而又不想生成太多的子类。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://jphu2017.github.io/2024/04/20/designpatterns/16-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1013,105 +1107,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://jphu2017.github.io/2024/04/20/designpatterns/07-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="JpHu">
-      <meta itemprop="description" content="坐地日行八万里，巡天遥看一千河。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="日行八万里">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/04/20/designpatterns/07-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">07-桥接模式（Bridge）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-04-20 17:22:50 / 修改时间：17:47:14" itemprop="dateCreated datePublished" datetime="2024-04-20T17:22:50+08:00">2024-04-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>4.6k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>4 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="意图"><a href="#意图" class="headerlink" title="意图"></a>意图</h1><p>桥接模式是一种结构型设计模式。它将抽象部分与它的实现部分分离，使它们能够独立地变化。</p>
-<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><p><img src="/images/designpatterns/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt="桥接模式结构图" title="桥接模式结构图"></p>
-<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">桥接模式结构图</center>
-
-<p><img src="/images/designpatterns/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F%E7%A4%BA%E4%BE%8B%E5%9B%BE.png" alt="桥接模式示例图" title="桥接模式示例图"></p>
-<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">桥接模式示例图</center>
-
-<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 接口</span></span><br><span class="line"><span class="comment">// 窗体抽象类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">WindowImp</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Window</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Window</span>();</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Window</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 矩形</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">Rect</span> &#123;</span><br><span class="line">        <span class="built_in">Rect</span>() &#123;&#125;</span><br><span class="line">        <span class="built_in">Rect</span>(<span class="type">double</span> x_, <span class="type">double</span> y_, <span class="type">double</span> width_, <span class="type">double</span> height_)</span><br><span class="line">            : <span class="built_in">x</span>(x_), <span class="built_in">y</span>(y_), <span class="built_in">width</span>(width_), <span class="built_in">height</span>(height_) &#123;&#125;</span><br><span class="line">        <span class="keyword">virtual</span> ~<span class="built_in">Rect</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">double</span> x;</span><br><span class="line">        <span class="type">double</span> y;</span><br><span class="line">        <span class="type">double</span> width;</span><br><span class="line">        <span class="type">double</span> height;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">DrawText</span><span class="params">(<span class="type">const</span> std::string&amp; text)</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">DrawRect</span><span class="params">(<span class="type">const</span> Rect&amp; rect)</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    WindowImp* _imp = <span class="literal">nullptr</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 窗体类型一般由操作系统决定，这里假设参数给定</span></span><br><span class="line"><span class="type">static</span> std::string sWindowType = <span class="string">&quot;XWindow&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 窗体实现类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">WindowImp</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">WindowImp</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">WindowImp</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 直线</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">Line</span> &#123;</span><br><span class="line">        <span class="built_in">Line</span>() &#123;&#125;</span><br><span class="line">        <span class="built_in">Line</span>(<span class="type">double</span> x1_, <span class="type">double</span> y1_, <span class="type">double</span> x2_, <span class="type">double</span> y2_)</span><br><span class="line">            : <span class="built_in">x1</span>(x1_), <span class="built_in">y1</span>(y1_), <span class="built_in">x2</span>(x2_), <span class="built_in">y2</span>(y2_) &#123;&#125;</span><br><span class="line">        <span class="keyword">virtual</span> ~<span class="built_in">Line</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">double</span> x1;</span><br><span class="line">        <span class="type">double</span> y1;</span><br><span class="line">        <span class="type">double</span> x2;</span><br><span class="line">        <span class="type">double</span> y2;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">DevDrawText</span><span class="params">(<span class="type">const</span> std::string&amp; text)</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">DevDrawLine</span><span class="params">(<span class="type">const</span> Line&amp; line)</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 具体实现类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">XWindowImp</span> : <span class="keyword">public</span> WindowImp &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">XWindowImp</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">XWindowImp</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">DevDrawText</span><span class="params">(<span class="type">const</span> std::string&amp; text)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Text: &lt;&quot;</span> &lt;&lt; text &lt;&lt; <span class="string">&quot;&gt; in XWindow!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">DevDrawLine</span><span class="params">(<span class="type">const</span> Line&amp; line)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Line: (&quot;</span> </span><br><span class="line">            &lt;&lt; line.x1 &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; line.y1 &lt;&lt; <span class="string">&quot;)-(&quot;</span> </span><br><span class="line">            &lt;&lt; line.x2 &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; line.y2 &lt;&lt; <span class="string">&quot;) in XWindow!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">PMWindowImp</span> : <span class="keyword">public</span> WindowImp &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">PMWindowImp</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">PMWindowImp</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">DevDrawText</span><span class="params">(<span class="type">const</span> std::string&amp; text)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Text: &lt;&quot;</span> &lt;&lt; text &lt;&lt; <span class="string">&quot;&gt; in PMWindow!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">DevDrawLine</span><span class="params">(<span class="type">const</span> Line&amp; line)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Line: (&quot;</span> </span><br><span class="line">            &lt;&lt; line.x1 &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; line.y1 &lt;&lt; <span class="string">&quot;)-(&quot;</span> </span><br><span class="line">            &lt;&lt; line.x2 &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; line.y2 &lt;&lt; <span class="string">&quot;) in PMWindow!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 窗体实现函数</span></span><br><span class="line">Window::<span class="built_in">Window</span>() &#123;</span><br><span class="line">    <span class="keyword">if</span> (sWindowType == <span class="string">&quot;XWindow&quot;</span>) &#123;</span><br><span class="line">        _imp = <span class="keyword">new</span> <span class="built_in">XWindowImp</span>();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        _imp = <span class="keyword">new</span> <span class="built_in">PMWindowImp</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">Window::~<span class="built_in">Window</span>() &#123;</span><br><span class="line">    <span class="keyword">if</span> (_imp) &#123;</span><br><span class="line">        <span class="keyword">delete</span> _imp;</span><br><span class="line">        _imp = <span class="literal">nullptr</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Window::DrawText</span><span class="params">(<span class="type">const</span> std::string&amp; text)</span> </span>&#123;</span><br><span class="line">    _imp-&gt;<span class="built_in">DevDrawText</span>(text);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Window::DrawRect</span><span class="params">(<span class="type">const</span> Rect&amp; rect)</span> </span>&#123;</span><br><span class="line">    WindowImp::Line line;</span><br><span class="line">    <span class="comment">// line1</span></span><br><span class="line">    line.x1 = rect.x; line.y1 = rect.y;</span><br><span class="line">    line.x2 = rect.x + rect.width; line.y2 = rect.y;</span><br><span class="line">    _imp-&gt;<span class="built_in">DevDrawLine</span>(line);</span><br><span class="line">    <span class="comment">// line2</span></span><br><span class="line">    line.x1 = rect.x + rect.width; line.y1 = rect.y;</span><br><span class="line">    line.x2 = rect.x + rect.width; line.y2 = rect.y + rect.height;</span><br><span class="line">    _imp-&gt;<span class="built_in">DevDrawLine</span>(line);</span><br><span class="line">    <span class="comment">// line3</span></span><br><span class="line">    line.x1 = rect.x + rect.width; line.y1 = rect.y + rect.height;</span><br><span class="line">    line.x2 = rect.x; line.y2 = rect.y + rect.height;</span><br><span class="line">    _imp-&gt;<span class="built_in">DevDrawLine</span>(line);</span><br><span class="line">    <span class="comment">// line4</span></span><br><span class="line">    line.x1 = rect.x; line.y1 = rect.y + rect.height;</span><br><span class="line">    line.x2 = rect.x; line.y2 = rect.y;</span><br><span class="line">    _imp-&gt;<span class="built_in">DevDrawLine</span>(line);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 具体窗口类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">IconWindow</span> : <span class="keyword">public</span> Window &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">IconWindow</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">IconWindow</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">DrawBorder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;=========IconBorder=========&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="function">Rect <span class="title">rect</span><span class="params">(<span class="number">0</span>, <span class="number">0</span>, <span class="number">128</span>, <span class="number">128</span>)</span></span>;</span><br><span class="line">        <span class="keyword">this</span>-&gt;<span class="built_in">DrawRect</span>(rect);</span><br><span class="line">        <span class="keyword">this</span>-&gt;<span class="built_in">DrawText</span>(<span class="string">&quot;icon&quot;</span>);</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;============================&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TranslentWindow</span> : <span class="keyword">public</span> Window &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">TranslentWindow</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">TranslentWindow</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">DrawCloseBox</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;==========CloseBox==========&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="function">Rect <span class="title">rect</span><span class="params">(<span class="number">0</span>, <span class="number">0</span>, <span class="number">300</span>, <span class="number">100</span>)</span></span>;</span><br><span class="line">        <span class="keyword">this</span>-&gt;<span class="built_in">DrawRect</span>(rect);</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;============================&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// use it!</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (argc &lt; <span class="number">2</span>) &#123;</span><br><span class="line">        std::cerr &lt;&lt; <span class="string">&quot;Please input window type!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    sWindowType = argv[<span class="number">1</span>];</span><br><span class="line">    </span><br><span class="line">    IconWindow iconWindow;</span><br><span class="line">    iconWindow.<span class="built_in">DrawBorder</span>();</span><br><span class="line"></span><br><span class="line">    TranslentWindow translentWindow;</span><br><span class="line">    translentWindow.<span class="built_in">DrawCloseBox</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="/images/designpatterns/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt="桥接模式运行结果" title="桥接模式运行结果"></p>
-<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">桥接模式运行结果</center>
-
-<h1 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h1><ol>
-<li>你不希望在抽象和它的实现部分之间有一个固定的绑定关系。例如这种情况可能是因为，在程序运行时刻实现部分应可以被选择或者切换；</li>
-<li>类的抽象以及它的实现都应该可以通过生成子类的方法加以扩充；这时桥接模式使你可以对不同的抽象接口和实现部分进行组合，并分别对它们进行扩充；</li>
-<li>对一个抽象的实现部分的修改应该对客户不产生影响，即客户的代码不必重新编译；</li>
-<li>你想对客户完全隐藏抽象的实现部分（在 C + +中，类的表示在类接口中是可见的）；</li>
-<li>你有许多类要生成，这些类的层次结构如下图所示；这说明你必须将一个对象分解成两个部分，否则类会存在大量的重复实现。</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1183,7 +1178,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
