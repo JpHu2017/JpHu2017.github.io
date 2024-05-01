@@ -176,6 +176,568 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jphu2017.github.io/2024/05/01/designpatterns/23-%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="JpHu">
+      <meta itemprop="description" content="坐地日行八万里，巡天遥看一千河。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="日行八万里">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/01/designpatterns/23-%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">23-访问者模式（Visitor）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-05-01 20:42:32 / 修改时间：20:44:15" itemprop="dateCreated datePublished" datetime="2024-05-01T20:42:32+08:00">2024-05-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="意图"><a href="#意图" class="headerlink" title="意图"></a>意图</h1><p>访问者模式是一种行为型设计模式。它表示一个作用于某对象结构中的各元素的操作。它使你可以在不改变各元素的类的前提下定义作用于这些元素的新操作。</p>
+<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><p><img src="/images/designpatterns/%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt="访问者模式结构图" title="访问者模式结构图"></p>
+<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">访问者模式结构图</center>
+
+<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;list&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteElementA</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteElementB</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Visitor</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">using</span> Ptr = std::shared_ptr&lt;Visitor&gt;;</span><br><span class="line">    <span class="built_in">Visitor</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Visitor</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">VisitorConcreteElementA</span><span class="params">(ConcreteElementA* elem)</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">VisitorConcreteElementB</span><span class="params">(ConcreteElementB* elem)</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Element</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">using</span> Ptr = std::shared_ptr&lt;Element&gt;;</span><br><span class="line">    <span class="built_in">Element</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Element</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Accept</span><span class="params">(Visitor* v)</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> std::string <span class="title">Name</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteElementA</span> : <span class="keyword">public</span> Element &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ConcreteElementA</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">ConcreteElementA</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Accept</span><span class="params">(Visitor* v)</span> <span class="keyword">override</span></span>;</span><br><span class="line">    <span class="function">std::string <span class="title">Name</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;ElementA&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteElementB</span> : <span class="keyword">public</span> Element &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ConcreteElementB</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">ConcreteElementB</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Accept</span><span class="params">(Visitor* v)</span> <span class="keyword">override</span></span>;</span><br><span class="line">    <span class="function">std::string <span class="title">Name</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;ElementB&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ConcreteElementA::Accept</span><span class="params">(Visitor* v)</span> </span>&#123;</span><br><span class="line">    v-&gt;<span class="built_in">VisitorConcreteElementA</span>(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ConcreteElementB::Accept</span><span class="params">(Visitor* v)</span> </span>&#123;</span><br><span class="line">    v-&gt;<span class="built_in">VisitorConcreteElementB</span>(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteVisitor1</span> : <span class="keyword">public</span> Visitor &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ConcreteVisitor1</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">ConcreteVisitor1</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">VisitorConcreteElementA</span><span class="params">(ConcreteElementA* elem)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;operation &quot;</span> &lt;&lt; elem-&gt;<span class="built_in">Name</span>() &lt;&lt; <span class="string">&quot; by visitor1&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">VisitorConcreteElementB</span><span class="params">(ConcreteElementB* elem)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;operation &quot;</span> &lt;&lt; elem-&gt;<span class="built_in">Name</span>() &lt;&lt; <span class="string">&quot; by visitor1&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteVisitor2</span> : <span class="keyword">public</span> Visitor &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ConcreteVisitor2</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">ConcreteVisitor2</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">VisitorConcreteElementA</span><span class="params">(ConcreteElementA* elem)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;operation &quot;</span> &lt;&lt; elem-&gt;<span class="built_in">Name</span>() &lt;&lt; <span class="string">&quot; by visitor2&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">VisitorConcreteElementB</span><span class="params">(ConcreteElementB* elem)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;operation &quot;</span> &lt;&lt; elem-&gt;<span class="built_in">Name</span>() &lt;&lt; <span class="string">&quot; by visitor2&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">    <span class="function">Element::Ptr <span class="title">elemA</span><span class="params">(<span class="keyword">new</span> ConcreteElementA())</span></span>;</span><br><span class="line">    <span class="function">Element::Ptr <span class="title">elemB</span><span class="params">(<span class="keyword">new</span> ConcreteElementB())</span></span>;</span><br><span class="line">    <span class="function">Visitor::Ptr <span class="title">v1</span><span class="params">(<span class="keyword">new</span> ConcreteVisitor1())</span></span>;</span><br><span class="line">    elemA-&gt;<span class="built_in">Accept</span>(v1.<span class="built_in">get</span>());</span><br><span class="line">    elemB-&gt;<span class="built_in">Accept</span>(v1.<span class="built_in">get</span>());</span><br><span class="line">    <span class="function">Visitor::Ptr <span class="title">v2</span><span class="params">(<span class="keyword">new</span> ConcreteVisitor2())</span></span>;</span><br><span class="line">    elemA-&gt;<span class="built_in">Accept</span>(v2.<span class="built_in">get</span>());</span><br><span class="line">    elemB-&gt;<span class="built_in">Accept</span>(v2.<span class="built_in">get</span>());</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/images/designpatterns/%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt="访问者模式运行结果" title="访问者模式运行结果"></p>
+<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">访问者模式运行结果</center>
+
+<h1 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h1><ol>
+<li>一个对象结构包含很多类对象，它们有不同的接口，而你想对这些对象实施一些依赖于其具体类的操作；</li>
+<li>需要对一个对象结构中的对象进行很多不同的并且不相关的操作，而你想避免让这些操作“污染”这些对象的类。访问者模式使得你可以将相关的操作集中起来定义在一个类中。当该对象结构被很多应用共享时，用 访问者模式让每个应用仅包含需要用到的操作。</li>
+<li>定义对象结构的类很少改变，但经常需要在此结构上定义新的操作。改变对象结构类需要重定义对所有访问者的接口，这可能需要很大的代价。如果对象结构类经常改变，那么可能还是在这些类中定义这些操作较好。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jphu2017.github.io/2024/05/01/designpatterns/22-%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="JpHu">
+      <meta itemprop="description" content="坐地日行八万里，巡天遥看一千河。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="日行八万里">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/01/designpatterns/22-%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">22-模板方法模式（Template Method）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-05-01 20:39:52 / 修改时间：20:42:04" itemprop="dateCreated datePublished" datetime="2024-05-01T20:39:52+08:00">2024-05-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="意图"><a href="#意图" class="headerlink" title="意图"></a>意图</h1><p>模板方法模式是一种行为型设计模式。它定义一个操作中的算法的骨架，而将一些步骤延迟到子类中。模板方法模式使得子类可以不改变一个算法的结构即可重定义该算法的某些特定步骤。</p>
+<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><p><img src="/images/designpatterns/%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt="模板方法模式结构图" title="模板方法模式结构图"></p>
+<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">模板方法模式结构图</center>
+
+<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;list&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AbstractClass</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">using</span> Ptr = std::shared_ptr&lt;AbstractClass&gt;;</span><br><span class="line">    <span class="built_in">AbstractClass</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">AbstractClass</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">TemplateMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;<span class="built_in">PrimitiveOperation1</span>();</span><br><span class="line">        <span class="keyword">this</span>-&gt;<span class="built_in">PrimitiveOperation2</span>();</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">PrimitiveOperation1</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">PrimitiveOperation2</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteClassA</span> : <span class="keyword">public</span> AbstractClass &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ConcreteClassA</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">ConcreteClassA</span>() &#123;&#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">PrimitiveOperation1</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;A operation1&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">PrimitiveOperation2</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;A operation2&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteClassB</span> : <span class="keyword">public</span> AbstractClass &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ConcreteClassB</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">ConcreteClassB</span>() &#123;&#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">PrimitiveOperation1</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;B operation1&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">PrimitiveOperation2</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;B operation2&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">    <span class="function">AbstractClass::Ptr <span class="title">absClass</span><span class="params">(<span class="keyword">new</span> ConcreteClassA())</span></span>;</span><br><span class="line">    absClass-&gt;<span class="built_in">TemplateMethod</span>();</span><br><span class="line">    absClass.<span class="built_in">reset</span>(<span class="keyword">new</span> <span class="built_in">ConcreteClassB</span>());</span><br><span class="line">    absClass-&gt;<span class="built_in">TemplateMethod</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/images/designpatterns/%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt="模板方法模式运行结果" title="模板方法模式运行结果"></p>
+<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">模板方法模式运行结果</center>
+
+<h1 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h1><ol>
+<li>一次性实现一个算法的不变的部分，并将可变的行为留给子类来实现；</li>
+<li>各子类中公共的行为应被提取出来并集中到一个公共父类中以避免代码重复；</li>
+<li>控制子类扩展，模板方法只在特定点调用hook操作，这样就只允许在这些点进行扩展。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jphu2017.github.io/2024/05/01/designpatterns/21-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="JpHu">
+      <meta itemprop="description" content="坐地日行八万里，巡天遥看一千河。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="日行八万里">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/01/designpatterns/21-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">21-策略模式（Strategy）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-05-01 20:37:52 / 修改时间：20:39:32" itemprop="dateCreated datePublished" datetime="2024-05-01T20:37:52+08:00">2024-05-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="意图"><a href="#意图" class="headerlink" title="意图"></a>意图</h1><p>策略模式是一种行为型设计模式。它定义一系列的算法，把它们一个个封装起来，并且使它们可相互替换。本模式使得算法可独立于使用它的客户而变化。</p>
+<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><p><img src="/images/designpatterns/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt="策略模式结构图" title="策略模式结构图"></p>
+<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">策略模式结构图</center>
+
+<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;list&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Strategy</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">using</span> Ptr = std::shared_ptr&lt;Strategy&gt;;</span><br><span class="line">    <span class="built_in">Strategy</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Strategy</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">AlgorithmInterface</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Context</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Context</span>(Strategy* strategy) : _strategy(strategy) &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Context</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">ContextInterface</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (_strategy) &#123;</span><br><span class="line">            _strategy-&gt;<span class="built_in">AlgorithmInterface</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">ChangeStrategy</span><span class="params">(Strategy* strategy)</span> </span>&#123;</span><br><span class="line">        _strategy = strategy;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    Strategy* _strategy;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteStrategyA</span> : <span class="keyword">public</span> Strategy &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ConcreteStrategyA</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">ConcreteStrategyA</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">AlgorithmInterface</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Strategy A&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteStrategyB</span> : <span class="keyword">public</span> Strategy &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ConcreteStrategyB</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">ConcreteStrategyB</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">AlgorithmInterface</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Strategy B&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">    Strategy::Ptr strategyA = std::<span class="built_in">make_shared</span>&lt;ConcreteStrategyA&gt;();</span><br><span class="line">    <span class="function">Context <span class="title">ctx</span><span class="params">(strategyA.get())</span></span>;</span><br><span class="line">    ctx.<span class="built_in">ContextInterface</span>();</span><br><span class="line">    Strategy::Ptr strategyB = std::<span class="built_in">make_shared</span>&lt;ConcreteStrategyB&gt;();</span><br><span class="line">    <span class="comment">// 改变策略</span></span><br><span class="line">    ctx.<span class="built_in">ChangeStrategy</span>(strategyB.<span class="built_in">get</span>());</span><br><span class="line">    ctx.<span class="built_in">ContextInterface</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/images/designpatterns/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt="策略模式运行结果" title="策略模式运行结果"></p>
+<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">策略模式运行结果</center>
+
+<h1 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h1><ol>
+<li>许多相关的类仅仅是行为有异。“策略”提供了一种用多个行为中的一个行为来配置一个类的方法；</li>
+<li>需要使用一个算法的不同变体。例如，你可能会定义一些反映不同的空间&#x2F;时间权衡的算法。当这些变体实现为一个算法的类层次时，可以使用策略模式；</li>
+<li>一个类定义了多种行为，并且这些行为在这个类的操作中以多个条件语句的形式出现。将相关的条件分支移入它们各自的策略类中以代替这些条件语句。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jphu2017.github.io/2024/05/01/designpatterns/20-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="JpHu">
+      <meta itemprop="description" content="坐地日行八万里，巡天遥看一千河。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="日行八万里">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/01/designpatterns/20-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">20-状态模式（State）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-05-01 20:35:30 / 修改时间：20:39:19" itemprop="dateCreated datePublished" datetime="2024-05-01T20:35:30+08:00">2024-05-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="意图"><a href="#意图" class="headerlink" title="意图"></a>意图</h1><p>状态模式是一种行为型设计模式。它允许一个对象在其内部状态改变时改变它的行为。对象看起来似乎修改了它的类。</p>
+<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><p><img src="/images/designpatterns/%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt="状态模式结构图" title="状态模式结构图"></p>
+<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">状态模式结构图</center>
+
+<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;list&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Context</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">State</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">using</span> Ptr = std::shared_ptr&lt;State&gt;;</span><br><span class="line">    <span class="built_in">State</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">State</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Handle</span><span class="params">(Context* ctx)</span> </span>= <span class="number">0</span>;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">ChangeState</span><span class="params">(Context* ctx, State* state)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Context</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Context</span>(State* state) : _state(state) &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Context</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Request</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (_state) &#123;</span><br><span class="line">            _state-&gt;<span class="built_in">Handle</span>(<span class="keyword">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">ChangeState</span><span class="params">(State* state)</span> </span>&#123;</span><br><span class="line">        _state = state;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="keyword">friend</span> <span class="keyword">class</span> <span class="title class_">State</span>;</span><br><span class="line">    State* _state;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteStateA</span> : <span class="keyword">public</span> State &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ConcreteStateA</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">ConcreteStateA</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">static</span> State* <span class="title">Instance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="type">static</span> ConcreteStateA s_instance;</span><br><span class="line">        <span class="keyword">return</span> &amp;s_instance;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Handle</span><span class="params">(Context* ctx)</span> <span class="keyword">override</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteStateB</span> : <span class="keyword">public</span> State &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ConcreteStateB</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">ConcreteStateB</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">static</span> State* <span class="title">Instance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="type">static</span> ConcreteStateB s_instance;</span><br><span class="line">        <span class="keyword">return</span> &amp;s_instance;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Handle</span><span class="params">(Context* ctx)</span> <span class="keyword">override</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">State::ChangeState</span><span class="params">(Context* ctx, State* state)</span> </span>&#123;</span><br><span class="line">    ctx-&gt;<span class="built_in">ChangeState</span>(state);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ConcreteStateA::Handle</span><span class="params">(Context* ctx)</span> </span>&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;State A&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">if</span> (ctx) &#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;<span class="built_in">ChangeState</span>(ctx, ConcreteStateB::<span class="built_in">Instance</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ConcreteStateB::Handle</span><span class="params">(Context* ctx)</span> </span>&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;State B&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">if</span> (ctx) &#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;<span class="built_in">ChangeState</span>(ctx, ConcreteStateA::<span class="built_in">Instance</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">    <span class="function">Context <span class="title">ctx</span><span class="params">(ConcreteStateA::Instance())</span></span>;</span><br><span class="line">    ctx.<span class="built_in">Request</span>();</span><br><span class="line">    ctx.<span class="built_in">Request</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/images/designpatterns/%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt="状态模式运行结果" title="状态模式运行结果"></p>
+<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">状态模式运行结果</center>
+
+<h1 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h1><ol>
+<li>一个对象的行为取决于它的状态 , 并且它必须在运行时刻根据状态改变它的行为；</li>
+<li>一个操作中含有庞大的多分支的条件语句，且这些分支依赖于该对象的状态。这个状态通常用一个或多个枚举常量表示。通常 , 有多个操作包含这一相同的条件结构；状态模式将每一个条件分支放入一个独立的类中。这使得你可以根据对象自身的情况将对象的状态作为一个对象，这一对象可以不依赖于其他对象而独立变化。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jphu2017.github.io/2024/05/01/designpatterns/19-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="JpHu">
+      <meta itemprop="description" content="坐地日行八万里，巡天遥看一千河。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="日行八万里">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/01/designpatterns/19-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">19-观察者模式（Observer）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-05-01 20:32:08 / 修改时间：20:34:48" itemprop="dateCreated datePublished" datetime="2024-05-01T20:32:08+08:00">2024-05-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="意图"><a href="#意图" class="headerlink" title="意图"></a>意图</h1><p>观察者模式是一种行为型设计模式。它定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知被自动更新。</p>
+<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><p><img src="/images/designpatterns/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt="观察者模式结构图" title="观察者模式结构图"></p>
+<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">观察者模式结构图</center>
+
+<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;list&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Observer</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Observer</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Observer</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Update</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Subject</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Subject</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Subject</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Attach</span><span class="params">(Observer* observer)</span> </span>&#123;</span><br><span class="line">        _observers.<span class="built_in">push_back</span>(observer);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Detach</span><span class="params">(Observer* observer)</span> </span>&#123;</span><br><span class="line">        _observers.<span class="built_in">remove</span>(observer);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Notify</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> observer : _observers) &#123;</span><br><span class="line">            observer-&gt;<span class="built_in">Update</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> std::string <span class="title">GetState</span><span class="params">()</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> _subjectState;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">SetState</span><span class="params">(<span class="type">const</span> std::string&amp; state)</span> </span>&#123;</span><br><span class="line">        _subjectState = state;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    std::list&lt;Observer*&gt; _observers;</span><br><span class="line">    std::string _subjectState;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteSubject</span> : <span class="keyword">public</span> Subject &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ConcreteSubject</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">ConcreteSubject</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">SetState</span><span class="params">(<span class="type">const</span> std::string&amp; state)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        _subjectState = <span class="string">&quot;concrete subject state &lt;&quot;</span> + state + <span class="string">&quot;&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteObserver</span> : <span class="keyword">public</span> Observer &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ConcreteObserver</span>(Subject* subject) : _subject(subject) &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">ConcreteObserver</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Update</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        _observerState = _subject-&gt;<span class="built_in">GetState</span>();</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Observe subject state: &quot;</span> &lt;&lt; _observerState &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    Subject* _subject;</span><br><span class="line">    std::string _observerState;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">    Subject* subject = <span class="keyword">new</span> <span class="built_in">ConcreteSubject</span>();</span><br><span class="line">    Observer* observer = <span class="keyword">new</span> <span class="built_in">ConcreteObserver</span>(subject);</span><br><span class="line">    subject-&gt;<span class="built_in">Attach</span>(observer);</span><br><span class="line">    subject-&gt;<span class="built_in">SetState</span>(<span class="string">&quot;state 1&quot;</span>);</span><br><span class="line">    subject-&gt;<span class="built_in">Notify</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/images/designpatterns/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt="观察者模式运行结果" title="观察者模式运行结果"></p>
+<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">观察者模式运行结果</center>
+
+<h1 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h1><ol>
+<li>当一个抽象模型有两个方面，其中一个方面依赖另一方面。将这二者封装在独立的对象中以使它们可以各自独立地改变和复用；</li>
+<li>当对一个对象的改变需要同时改变其他对象，而不知道具体有多少对象有待改变；</li>
+<li>当一个对象必须通知其他对象，而它又不能假定其它对象是谁。换言之，你不希望这些对象是紧密耦合的。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jphu2017.github.io/2024/05/01/designpatterns/18-%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="JpHu">
+      <meta itemprop="description" content="坐地日行八万里，巡天遥看一千河。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="日行八万里">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/01/designpatterns/18-%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">18-备忘录模式（Memento）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-05-01 20:14:52 / 修改时间：20:19:24" itemprop="dateCreated datePublished" datetime="2024-05-01T20:14:52+08:00">2024-05-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="意图"><a href="#意图" class="headerlink" title="意图"></a>意图</h1><p>备忘录模式是一种行为型设计模式。它在不破坏封装性的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。这样以后就可将该对象恢复到原先保存的状态。</p>
+<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><p><img src="/images/designpatterns/%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt="备忘录模式结构图" title="备忘录模式结构图"></p>
+<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">备忘录模式结构图</center>
+
+<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 备忘录</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Originator</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Memento</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Memento</span>() &#123;&#125;</span><br><span class="line">    <span class="function">std::string <span class="title">GetState</span><span class="params">()</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> _state;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">SetState</span><span class="params">(<span class="type">const</span> std::string&amp; state)</span> </span>&#123;</span><br><span class="line">        _state = state;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">friend</span> <span class="keyword">class</span> <span class="title class_">Originator</span>;</span><br><span class="line">    <span class="built_in">Memento</span>(<span class="type">const</span> std::string&amp; state) : _state(state) &#123;&#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    std::string _state;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 原发器</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Originator</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Originator</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Originator</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">std::string <span class="title">GetState</span><span class="params">()</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> _state;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">SetState</span><span class="params">(<span class="type">const</span> std::string&amp; state)</span> </span>&#123;</span><br><span class="line">        _state = state;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">PrintState</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;State: &quot;</span> &lt;&lt; _state &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">SetMemento</span><span class="params">(Memento* memento)</span> </span>&#123;</span><br><span class="line">        _state = memento-&gt;<span class="built_in">GetState</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">Memento* <span class="title">CreateMemento</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Memento</span>(_state);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    std::string _state;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Caretaker</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Caretaker</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Caretaker</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">MementoCount</span><span class="params">()</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> _mementos.<span class="built_in">size</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">AddMemento</span><span class="params">(Memento* memento)</span> </span>&#123;</span><br><span class="line">        _mementos.<span class="built_in">push_back</span>(memento);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">Memento* <span class="title">GetMemento</span><span class="params">(<span class="type">int</span> index)</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> _mementos[index];</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    std::vector&lt;Memento*&gt; _mementos;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">    Caretaker* caretaker = <span class="keyword">new</span> <span class="built_in">Caretaker</span>();</span><br><span class="line">    Originator* originator = <span class="keyword">new</span> <span class="built_in">Originator</span>();</span><br><span class="line">    originator-&gt;<span class="built_in">SetState</span>(<span class="string">&quot;First State&quot;</span>);</span><br><span class="line">    originator-&gt;<span class="built_in">PrintState</span>();</span><br><span class="line">    caretaker-&gt;<span class="built_in">AddMemento</span>(originator-&gt;<span class="built_in">CreateMemento</span>());</span><br><span class="line"></span><br><span class="line">    originator-&gt;<span class="built_in">SetState</span>(<span class="string">&quot;Second State&quot;</span>);</span><br><span class="line">    originator-&gt;<span class="built_in">PrintState</span>();</span><br><span class="line">    caretaker-&gt;<span class="built_in">AddMemento</span>(originator-&gt;<span class="built_in">CreateMemento</span>());</span><br><span class="line"></span><br><span class="line">    originator-&gt;<span class="built_in">SetState</span>(<span class="string">&quot;Third State&quot;</span>);</span><br><span class="line">    originator-&gt;<span class="built_in">PrintState</span>();</span><br><span class="line">    caretaker-&gt;<span class="built_in">AddMemento</span>(originator-&gt;<span class="built_in">CreateMemento</span>());</span><br><span class="line"></span><br><span class="line">    originator-&gt;<span class="built_in">SetMemento</span>(caretaker-&gt;<span class="built_in">GetMemento</span>(<span class="number">0</span>));</span><br><span class="line">    originator-&gt;<span class="built_in">PrintState</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/images/designpatterns/%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt="备忘录模式运行结果" title="备忘录模式运行结果"></p>
+<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">备忘录模式运行结果</center>
+
+<h1 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h1><ol>
+<li>必须保存一个对象在某一个时刻的状态，这样以后需要时它才能恢复到先前的状态；</li>
+<li>如果一个用接口来让其他对象直接得到这些状态，将会暴露对象的实现细节并破坏对象的封装性。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://jphu2017.github.io/2024/04/20/designpatterns/17-%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -543,576 +1105,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://jphu2017.github.io/2024/04/20/designpatterns/13-%E8%81%8C%E8%B4%A3%E9%93%BE%E6%A8%A1%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="JpHu">
-      <meta itemprop="description" content="坐地日行八万里，巡天遥看一千河。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="日行八万里">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/04/20/designpatterns/13-%E8%81%8C%E8%B4%A3%E9%93%BE%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">13-职责链模式（Chain Of Responsibility）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-04-20 18:10:29 / 修改时间：18:13:58" itemprop="dateCreated datePublished" datetime="2024-04-20T18:10:29+08:00">2024-04-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="意图"><a href="#意图" class="headerlink" title="意图"></a>意图</h1><p>职责链模式是一种行为型设计模式。它使多个对象都有机会处理请求，从而避免请求的发送者和接收者的耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。</p>
-<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><p><img src="/images/designpatterns/%E8%81%8C%E8%B4%A3%E9%93%BE%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt="职责链模式结构图" title="职责链模式结构图"></p>
-<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">职责链模式结构图</center>
-
-<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 抽象句柄</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Handler</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">using</span> Ptr = std::shared_ptr&lt;Handler&gt;;</span><br><span class="line">    <span class="built_in">Handler</span>(Handler* successor) : _successor(successor) &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Handler</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">HandleRequest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (_successor) &#123;</span><br><span class="line">            _successor-&gt;<span class="built_in">HandleRequest</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">// 后继者</span></span><br><span class="line">    Handler* _successor = <span class="literal">nullptr</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 具体句柄</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteHandler1</span> : <span class="keyword">public</span> Handler &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ConcreteHandler1</span>(Handler* successor) : <span class="built_in">Handler</span>(successor) &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">ConcreteHandler1</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">HandleRequest</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;ConcreteHandler1 handle request!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        Handler::<span class="built_in">HandleRequest</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteHandler2</span> : <span class="keyword">public</span> Handler &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ConcreteHandler2</span>(Handler* successor) : <span class="built_in">Handler</span>(successor) &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">ConcreteHandler2</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">HandleRequest</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;ConcreteHandler2 handle request!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        Handler::<span class="built_in">HandleRequest</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// use it!</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">Handler::Ptr <span class="title">handler1</span><span class="params">(<span class="keyword">new</span> ConcreteHandler1(<span class="literal">nullptr</span>))</span></span>;</span><br><span class="line">    <span class="function">Handler::Ptr <span class="title">handler2</span><span class="params">(<span class="keyword">new</span> ConcreteHandler2(handler1.get()))</span></span>;</span><br><span class="line">    handler2-&gt;<span class="built_in">HandleRequest</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="/images/designpatterns/%E8%81%8C%E8%B4%A3%E9%93%BE%E6%A8%A1%E5%BC%8F%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt="职责链模式运行结果" title="职责链模式运行结果"></p>
-<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">职责链模式运行结果</center>
-
-<h1 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h1><ol>
-<li>有多个对象可以处理一个请求，哪个对象处理该请求运行时刻自动确定；</li>
-<li>你想在不明确指定接收者的情况下，向多个对象中的一个提交一个请求；</li>
-<li>可处理一个请求的对象集合应被动态指定。</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://jphu2017.github.io/2024/04/20/designpatterns/12-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="JpHu">
-      <meta itemprop="description" content="坐地日行八万里，巡天遥看一千河。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="日行八万里">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/04/20/designpatterns/12-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">12-代理模式（Proxy）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-04-20 18:05:48 / 修改时间：18:13:24" itemprop="dateCreated datePublished" datetime="2024-04-20T18:05:48+08:00">2024-04-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="意图"><a href="#意图" class="headerlink" title="意图"></a>意图</h1><p>代理模式是一种结构型设计模式。他为其他对象提供一种代理以控制对这个对象的访问。</p>
-<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><p><img src="/images/designpatterns/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt="代理模式结构图" title="代理模式结构图"></p>
-<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">代理模式结构图</center>
-
-<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 抽象主题</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Subject</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Subject</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Subject</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Request</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 真实主题</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">RealSubject</span> : <span class="keyword">public</span> Subject &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">using</span> Ptr = std::shared_ptr&lt;RealSubject&gt;;</span><br><span class="line">    <span class="built_in">RealSubject</span>() : <span class="built_in">Subject</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">RealSubject</span>() &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Request</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Real subject request!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 代理</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Proxy</span> : <span class="keyword">public</span> Subject &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">using</span> Ptr = std::shared_ptr&lt;Proxy&gt;;</span><br><span class="line">    <span class="built_in">Proxy</span>() : <span class="built_in">Subject</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Proxy</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Request</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (_realSubject.<span class="built_in">get</span>() == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            _realSubject.<span class="built_in">reset</span>(<span class="keyword">new</span> <span class="built_in">RealSubject</span>());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">DoProxy</span>();</span><br><span class="line">        _realSubject-&gt;<span class="built_in">Request</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">DoProxy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;I&#x27;m doing proxy!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    RealSubject::Ptr _realSubject = <span class="literal">nullptr</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// use it!</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">Proxy::Ptr <span class="title">proxy</span><span class="params">(<span class="keyword">new</span> Proxy())</span></span>;</span><br><span class="line">    proxy-&gt;<span class="built_in">Request</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="/images/designpatterns/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt="代理模式运行结果" title="代理模式运行结果"></p>
-<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">代理模式运行结果</center>
-
-<h1 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h1><ol>
-<li>远程代理，为一个对象在不同的地址空间提供局部代表；</li>
-<li>虚代理，根据需要创建开销很大的对象；</li>
-<li>保护代理，控制对原始对象的访问；保护代理用于对象应该有不同的访问权限的时候；</li>
-<li>智能指引取代了简单的指针，它在访问对象时执行一些附加操作：<br>  a. 对指向实际对象的引用计数，这样当该对象没有引用时，可以自动释放它（也称为智能指针）；<br>  b. 当第一次引用一个持久对象时，将它装入内存；<br>  c. 在访问一个实际对象前，检查是否已经锁定了它，以确保其他对象不能改变它。</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://jphu2017.github.io/2024/04/20/designpatterns/11-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="JpHu">
-      <meta itemprop="description" content="坐地日行八万里，巡天遥看一千河。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="日行八万里">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/04/20/designpatterns/11-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">11-享元模式（Flyweight）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-04-20 18:00:50 / 修改时间：18:04:55" itemprop="dateCreated datePublished" datetime="2024-04-20T18:00:50+08:00">2024-04-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.8k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="意图"><a href="#意图" class="headerlink" title="意图"></a>意图</h1><p>享元模式是一种结构型设计模式。它运用共享技术有效地支持大量细粒度的对象。</p>
-<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><p><img src="/images/designpatterns/%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt="享元模式结构图" title="享元模式结构图"></p>
-<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">享元模式结构图</center>
-
-<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 享元类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Flyweight</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">using</span> Ptr = std::shared_ptr&lt;Flyweight&gt;;</span><br><span class="line">    <span class="built_in">Flyweight</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Flyweight</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Operation</span><span class="params">(<span class="type">const</span> std::string&amp; extrinsicState)</span> <span class="type">const</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 具体享元类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteFlyweight</span> : <span class="keyword">public</span> Flyweight &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ConcreteFlyweight</span>(<span class="type">const</span> std::string&amp; intrinsicState) </span><br><span class="line">        : _intrinsicState(intrinsicState) &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">ConcreteFlyweight</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Operation</span><span class="params">(<span class="type">const</span> std::string&amp; extrinsicState)</span> <span class="type">const</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Flyweight: intrinsicState = &quot;</span> &lt;&lt; _intrinsicState</span><br><span class="line">            &lt;&lt; <span class="string">&quot;, extrinsicState = &quot;</span> &lt;&lt; extrinsicState &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    std::string _intrinsicState;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 享元工厂</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FlyweightFactory</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">FlyweightFactory</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">FlyweightFactory</span>() &#123;&#125;</span><br><span class="line">    <span class="function">Flyweight::Ptr <span class="title">GetFlyweight</span><span class="params">(<span class="type">const</span> std::string&amp; key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (_flyweights.<span class="built_in">find</span>(key) == _flyweights.<span class="built_in">end</span>()) &#123;</span><br><span class="line">            _flyweights[key] = std::<span class="built_in">make_shared</span>&lt;ConcreteFlyweight&gt;(key);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> _flyweights[key];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    std::map&lt;std::string, Flyweight::Ptr&gt; _flyweights;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    FlyweightFactory factory;</span><br><span class="line">    Flyweight::Ptr flyweight1 = factory.<span class="built_in">GetFlyweight</span>(<span class="string">&quot;A&quot;</span>);</span><br><span class="line">    flyweight1-&gt;<span class="built_in">Operation</span>(<span class="string">&quot;operation1&quot;</span>);</span><br><span class="line"></span><br><span class="line">    Flyweight::Ptr flyweight2 = factory.<span class="built_in">GetFlyweight</span>(<span class="string">&quot;B&quot;</span>);</span><br><span class="line">    flyweight2-&gt;<span class="built_in">Operation</span>(<span class="string">&quot;operation2&quot;</span>);</span><br><span class="line"></span><br><span class="line">    Flyweight::Ptr flyweight3 = factory.<span class="built_in">GetFlyweight</span>(<span class="string">&quot;A&quot;</span>);</span><br><span class="line">    flyweight3-&gt;<span class="built_in">Operation</span>(<span class="string">&quot;operation3&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="/images/designpatterns/%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt="享元模式运行结果" title="享元模式运行结果"></p>
-<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">享元模式运行结果</center>
-
-<h1 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h1><ol>
-<li>一个应用程序使用了大量的对象；</li>
-<li>完全由于使用大量的对象，造成很大的存储开销；</li>
-<li>对象的大多数状态都可变为外部状态；</li>
-<li>如果删除对象的外部状态，那么可以用相对较少的共享对象取代很多组对象；</li>
-<li>应用程序不依赖于对象标识。由于享元对象可以被共享，对于概念上明显有别的对象，标识测试将返回真值。</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://jphu2017.github.io/2024/04/20/designpatterns/10-%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="JpHu">
-      <meta itemprop="description" content="坐地日行八万里，巡天遥看一千河。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="日行八万里">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/04/20/designpatterns/10-%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">10-外观模式（Facade）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-04-20 17:56:01 / 修改时间：17:59:17" itemprop="dateCreated datePublished" datetime="2024-04-20T17:56:01+08:00">2024-04-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.9k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="意图"><a href="#意图" class="headerlink" title="意图"></a>意图</h1><p>外观模式是一种结构型设计模式。它为子系统中的一组接口提供一个一致的界面。外观模式定义了一个高层接口，这个接口使得这一子系统更加容易使用。</p>
-<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><p><img src="/images/designpatterns/%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt="外观模式结构图" title="外观模式结构图"></p>
-<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">外观模式结构图</center>
-
-<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Cpu</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Cpu</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Cpu</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Cpu start!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Stop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Cpu stop!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Memory</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Memory</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Memory</span>() &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Memory start!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Stop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Memory stop!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Screen</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Screen</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Screen</span>() &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Screen start!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Stop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Screen stop!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ComputerFacade</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ComputerFacade</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">ComputerFacade</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Computer is starting!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        _cpu.<span class="built_in">Start</span>();</span><br><span class="line">        _memory.<span class="built_in">Start</span>();</span><br><span class="line">        _screen.<span class="built_in">Start</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Stop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        _cpu.<span class="built_in">Stop</span>();</span><br><span class="line">        _memory.<span class="built_in">Stop</span>();</span><br><span class="line">        _screen.<span class="built_in">Stop</span>();</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Computer is stopped!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Cpu _cpu;</span><br><span class="line">    Memory _memory;</span><br><span class="line">    Screen _screen;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// use it!</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">    ComputerFacade computer;</span><br><span class="line">    <span class="comment">// 开机</span></span><br><span class="line">    computer.<span class="built_in">Start</span>();</span><br><span class="line">    <span class="comment">// 关机</span></span><br><span class="line">    computer.<span class="built_in">Stop</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="/images/designpatterns/%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt="外观模式运行结果" title="外观模式运行结果"></p>
-<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">外观模式运行结果</center>
-
-<h1 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h1><ol>
-<li>当你要为一个复杂子系统提供一个简单接口时。子系统往往因为不断演化而变得越来越复杂。大多数模式使用时都会产生更多更小的类。这使得子系统更具可重用性，也更容易对子系统进行定制，但这也给那些不需要定制子系统的用户带来一些使用上的困难。外观模式可以提供一个简单的缺省视图，这一视图对大多数用户来说已经足够，而那些需要更多的可定制性的用户可以越过外观层；</li>
-<li>客户程序与抽象类的实现部分之间存在着很大的依赖性。引入外观将这个子系统与客户以及其他的子系统分离，可以提高子系统的独立性和可移植性；</li>
-<li>当你需要构建一个层次结构的子系统时，使用外观模式定义子系统中每层的入口点。如果子系统之间是相互依赖的，你可以让它们仅通过外观层进行通讯，从而简化了它们之间的依赖关系。</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://jphu2017.github.io/2024/04/20/designpatterns/09-%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="JpHu">
-      <meta itemprop="description" content="坐地日行八万里，巡天遥看一千河。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="日行八万里">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/04/20/designpatterns/09-%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">09-装饰者模式（Decorator）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-04-20 17:49:13 / 修改时间：17:56:11" itemprop="dateCreated datePublished" datetime="2024-04-20T17:49:13+08:00">2024-04-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>2.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="意图"><a href="#意图" class="headerlink" title="意图"></a>意图</h1><p>装饰者模式是一种结构型设计模式。它动态地给一个对象添加一些额外的职责。就增加功能来说，装饰模式相比生成子类更为灵活。</p>
-<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><p><img src="/images/designpatterns/%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt="装饰者模式结构图" title="装饰者模式结构图"></p>
-<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">装饰者模式结构图</center>
-
-<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 接口</span></span><br><span class="line"><span class="comment">// 可见组建</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">VisualComponent</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">using</span> Ptr = std::shared_ptr&lt;VisualComponent&gt;;</span><br><span class="line">    <span class="built_in">VisualComponent</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">VisualComponent</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Draw</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 文本视口</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TextView</span> : <span class="keyword">public</span> VisualComponent &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">TextView</span>() : <span class="built_in">VisualComponent</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">TextView</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Draw</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Draw TextView!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 装饰器</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Decorator</span> : <span class="keyword">public</span> VisualComponent &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Decorator</span>(VisualComponent* vc) : <span class="built_in">VisualComponent</span>(), _vc(vc) &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Decorator</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Draw</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (_vc) &#123;_vc-&gt;<span class="built_in">Draw</span>();&#125;</span><br><span class="line">    &#125;;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    VisualComponent* _vc = <span class="literal">nullptr</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 滚动条装饰器</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ScrollDecorator</span> : <span class="keyword">public</span> Decorator &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ScrollDecorator</span>(VisualComponent* vc) : <span class="built_in">Decorator</span>(vc) &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">ScrollDecorator</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Draw</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;&gt;&gt;&gt;&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        Decorator::<span class="built_in">Draw</span>();</span><br><span class="line">        <span class="built_in">ScrollTo</span>();</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;&lt;&lt;&lt;&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">ScrollTo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Draw Scroll!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 边框装饰器</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">BorderDecorator</span> : <span class="keyword">public</span> Decorator &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">BorderDecorator</span>(VisualComponent* vc) : <span class="built_in">Decorator</span>(vc) &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">BorderDecorator</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Draw</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;&gt;&gt;&gt;&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        Decorator::<span class="built_in">Draw</span>();</span><br><span class="line">        <span class="built_in">DrawBorder</span>();</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;&lt;&lt;&lt;&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">DrawBorder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Draw Border!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// use it!</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">    <span class="function">VisualComponent::Ptr <span class="title">textView</span><span class="params">(<span class="keyword">new</span> TextView())</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 滚动条装饰</span></span><br><span class="line">    <span class="function">Decorator::Ptr <span class="title">scrollDecorator</span><span class="params">(<span class="keyword">new</span> ScrollDecorator(textView.get()))</span></span>;</span><br><span class="line">    scrollDecorator-&gt;<span class="built_in">Draw</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 边框装饰</span></span><br><span class="line">    <span class="function">Decorator::Ptr <span class="title">borderDecorator</span><span class="params">(<span class="keyword">new</span> BorderDecorator(textView.get()))</span></span>;</span><br><span class="line">    borderDecorator-&gt;<span class="built_in">Draw</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="/images/designpatterns/%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt="装饰者模式运行结果" title="装饰者模式运行结果"></p>
-<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">装饰者模式运行结果</center>
-
-<h1 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h1><ol>
-<li>在不影响其他对象的情况下，以动态、透明的方式给单个对象添加职责；</li>
-<li>处理那些可以撤销的职责；</li>
-<li>当不能采用生成子类的方法进行扩充时；这存在两种情况：一种情况是，可能有大量独立的扩展，为支持每一种组合将产生大量的子类，使得子类数目呈爆炸性增长；另一种情况可能是因为类定义被隐藏，或类定义不能用于生成子类（比如上述例子中，TextView不对外暴露，用户只能通过参数创建TextView实例时）。</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://jphu2017.github.io/2024/04/20/designpatterns/08-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="JpHu">
-      <meta itemprop="description" content="坐地日行八万里，巡天遥看一千河。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="日行八万里">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/04/20/designpatterns/08-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">08-组合模式（Composite）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-04-20 17:41:56 / 修改时间：17:48:44" itemprop="dateCreated datePublished" datetime="2024-04-20T17:41:56+08:00">2024-04-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>2.6k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="意图"><a href="#意图" class="headerlink" title="意图"></a>意图</h1><p>组合模式是一种结构型设计模式。它将对象组合成树形结构以表示“部分-整体”的层次结构。组合模式使得用户对单个对象和组合对象的使用具有一致性。</p>
-<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><p><img src="/images/designpatterns/%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt="组合模式结构图" title="组合模式结构图"></p>
-<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">组合模式结构图</center>
-
-<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 接口</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Component</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">using</span> Ptr = std::shared_ptr&lt;Component&gt;;</span><br><span class="line">    <span class="built_in">Component</span>(<span class="type">const</span> std::string&amp; name) : _name(name) &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Component</span>() &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Operation</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Add</span><span class="params">(Component::Ptr component)</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Remove</span><span class="params">(Component::Ptr component)</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> Component* <span class="title">GetChild</span><span class="params">(<span class="type">int</span> index)</span> </span>&#123;<span class="keyword">return</span> <span class="literal">nullptr</span>;&#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    std::string _name;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Leaf</span> : <span class="keyword">public</span> Component &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Leaf</span>(<span class="type">const</span> std::string&amp; name) : <span class="built_in">Component</span>(name) &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Leaf</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Operation</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;I&#x27;m a leaf: &quot;</span> &lt;&lt; _name &lt;&lt; <span class="string">&quot;!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Composite</span> : <span class="keyword">public</span> Component &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Composite</span>(<span class="type">const</span> std::string&amp; name) : <span class="built_in">Component</span>(name) &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Composite</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Operation</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;&gt;&gt;&gt;&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;I&#x27;m a composite: &quot;</span> &lt;&lt; _name &lt;&lt; <span class="string">&quot;!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; g : _children) &#123;</span><br><span class="line">            g-&gt;<span class="built_in">Operation</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;&lt;&lt;&lt;&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Add</span><span class="params">(Component::Ptr component)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        _children.<span class="built_in">push_back</span>(component);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Remove</span><span class="params">(Component::Ptr component)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        <span class="keyword">auto</span> iter = std::<span class="built_in">find</span>(_children.<span class="built_in">begin</span>(), _children.<span class="built_in">end</span>(), component);</span><br><span class="line">        <span class="keyword">if</span> (iter == _children.<span class="built_in">end</span>()) &#123;<span class="keyword">return</span>;&#125;</span><br><span class="line">        _children.<span class="built_in">erase</span>(iter);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">Component* <span class="title">GetChild</span><span class="params">(<span class="type">int</span> index)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (index &lt; <span class="number">0</span> || index &gt;= _children.<span class="built_in">size</span>()) &#123;<span class="keyword">return</span> <span class="literal">nullptr</span>;&#125;</span><br><span class="line">        <span class="keyword">return</span> _children[index].<span class="built_in">get</span>();</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    std::vector&lt;Component::Ptr&gt; _children;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// use it!</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;---------Add case---------&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="function">Component::Ptr <span class="title">leaf1</span><span class="params">(<span class="keyword">new</span> Leaf(<span class="string">&quot;one&quot;</span>))</span></span>;</span><br><span class="line">    <span class="function">Component::Ptr <span class="title">leaf2</span><span class="params">(<span class="keyword">new</span> Leaf(<span class="string">&quot;two&quot;</span>))</span></span>;</span><br><span class="line">    <span class="function">Component::Ptr <span class="title">composite1</span><span class="params">(<span class="keyword">new</span> Composite(<span class="string">&quot;cone&quot;</span>))</span></span>;</span><br><span class="line">    composite1-&gt;<span class="built_in">Add</span>(leaf1);</span><br><span class="line">    composite1-&gt;<span class="built_in">Add</span>(leaf2);</span><br><span class="line">    <span class="function">Component::Ptr <span class="title">leaf3</span><span class="params">(<span class="keyword">new</span> Leaf(<span class="string">&quot;three&quot;</span>))</span></span>;</span><br><span class="line">    <span class="function">Component::Ptr <span class="title">composite2</span><span class="params">(<span class="keyword">new</span> Composite(<span class="string">&quot;ctwo&quot;</span>))</span></span>;</span><br><span class="line">    composite2-&gt;<span class="built_in">Add</span>(composite1);</span><br><span class="line">    composite2-&gt;<span class="built_in">Add</span>(leaf3);</span><br><span class="line">    composite2-&gt;<span class="built_in">Operation</span>();</span><br><span class="line"></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;--------Remove case--------&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    composite2-&gt;<span class="built_in">Remove</span>(leaf3);</span><br><span class="line">    composite2-&gt;<span class="built_in">Operation</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><img src="/images/designpatterns/%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt="组合模式运行结果" title="组合模式运行结果"></p>
-<center style="font-size:14px;color:#C0C0C0;text-decoration:underline">组合模式运行结果</center>
-
-<h1 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h1><ol>
-<li>你想表示对象的部分-整体层次结构；</li>
-<li>你希望用户忽略组合对象与单个对象的不同，用户将统一地使用组合结构中的所有对象。</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1180,7 +1176,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
